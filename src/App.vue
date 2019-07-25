@@ -2,7 +2,12 @@
   <div id="app">
     <router-view/>
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link
+        :to="{ name: 'transaction-detail', params: { id: 'new' } }"
+      >
+        Create Transaction
+      </router-link> |
+      <router-link :to="{ name: 'home' }">Home</router-link> |
     </div>
   </div>
 </template>
