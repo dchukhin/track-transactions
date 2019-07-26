@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "MMTasty Food",
+    "date": "2019-01-01",
+    "amount": "100.00",
+    "description": "something",
+    "category": "food",
+  },
+  {
+    "id": 2,
+    "name": "Car Tsar",
+    "date": "2000-01-01",
+    "amount": "9999.99",
+    "description": "knows where the cars are",
+    "category": "car",
+  },
+  {
+    "id": 3,
+    "name": "Transaction 3",
+    "date": "2018-06-01",
+    "amount": "100.00",
+    "description": "something",
+    "category": "food",
+  },
+  {
+    "id": 4,
+    "name": "GoodBurger",
+    "date": "2019-07-01",
+    "amount": "25.10",
+    "description": "good burger",
+    "category": "food",
+  },
+  {
+    "id": 5,
+    "name": "Kwik-E-Mart",
+    "date": "2018-06-01",
+    "amount": "90.12",
+    "description": "Nahasapimapetelon cereal",
+    "category": "food",
+  }
+]
