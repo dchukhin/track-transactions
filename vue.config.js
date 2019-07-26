@@ -6,4 +6,10 @@ module.exports = {
     https: true,
     hotOnly: false,
   },
+  pwa: {
+    workboxPluginMode: 'InjectManifest',
+    workboxOptions: {
+      swSrc: 'public/service-worker.js',
+    }
+  }
 }
