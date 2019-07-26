@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { deepcopy, getEmptyTransactionObject } from '@/utils';
+import { deepcopy, getEmptyTransactionObject, getNextAvailableId } from '@/utils';
 
 Vue.use(Vuex);
 
@@ -37,15 +37,32 @@ export default new Vuex.Store({
         })
     },
     createTransaction(context, transaction) {
-      // TODO: API call to create a transaction. For now, just save to store
-      context.commit('addTransactionToTransactions', transaction);
-      return transaction;
+      /* Make a POST request to create the transaction, then set it in the store. */
+      return fetch('https://my-json-server.typicode.com/dchukhin/track-transactions/transactions', { method: 'post', body: JSON.stringify(transaction) } )
+        .then(res => res.json().then(data => ({ status: res.status, body: data })))
+        .then(
+          response => {
+            // Because this API call doesn't really create the object, give the transactionData
+            // the next available id.
+            let transactionData = deepcopy(transaction)
+            transactionData['id'] = getNextAvailableId(context.state.transactions)
+            context.commit('addTransactionToTransactions', transactionData);
+            return transactionData;
+          }
+        )
     },
     updateTransaction(context, transaction) {
-      // TODO: API call to update a transaction. For now, just save to store
-      context.commit('removeTransactionFromTransactions', transaction);
-      context.commit('addTransactionToTransactions', transaction);
-      return transaction;
-    },
+      /* Make a PUT request to update the transaction, then set it in the store. */
+      const url = 'https://my-json-server.typicode.com/dchukhin/track-transactions/transactions/' + transaction.id
+      return fetch(url, { method: 'put', body: JSON.stringify(transaction) } )
+        .then(res => res.json())
+        .then(
+          response => {
+            context.commit('removeTransactionFromTransactions', transaction);
+            context.commit('addTransactionToTransactions', transaction);
+            return transaction;
+          }
+        )
+    }
   },
 });
