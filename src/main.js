@@ -3,8 +3,10 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './registerServiceWorker';
+import VueOffline from 'vue-offline'
 
 Vue.config.productionTip = false;
+Vue.use(VueOffline)
 
 const vue = new Vue({
   router,

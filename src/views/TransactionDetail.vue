@@ -1,7 +1,6 @@
 <template>
   <div class="about">
     <h1>Transaction</h1>
-    {{ transaction }}
     <div>
       <label for="name">Name</label>
       <input id="name" v-model="localTransaction.name">
@@ -23,8 +22,10 @@
       <input id="name" v-model="localTransaction.category">
     </div>
 
+    <p v-if="isOffline">Note: you are currently offline. You may still create a transaction, but it won't be synced with the server until your device comes back online.</p>
+
     <div>
-      <span @click="saveTransaction">Save</span>
+      <button @click="saveTransaction">Save</button>
     </div>
 
   </div>
@@ -51,7 +52,11 @@ export default {
       if (this.localTransaction.id) {
         this.$store.dispatch('updateTransaction', this.localTransaction);
       } else {
-        this.$store.dispatch('createTransaction', this.localTransaction);
+        if (this.isOnline) {
+          this.$store.dispatch('createTransaction', this.localTransaction);
+        } else {
+          this.$store.dispatch('createTransactionForSync', this.localTransaction);
+        }
       }
       this.localTransaction = getEmptyTransactionObject();
     },

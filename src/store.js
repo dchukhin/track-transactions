@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     transactionDetail: getEmptyTransactionObject(),
     transactions: [],
+    offlineTransactions: []
   },
   mutations: {
     transactionDetail(state, transactionObject) {
@@ -25,6 +26,11 @@ export default new Vuex.Store({
       let transactions = deepcopy(state.transactions);
       transactions = transactions.filter(transaction => transaction.id !== transactionObject.id);
       state.transactions = transactions;
+    },
+    addTransactionToOfflineTransactions(state, transactionObject) {
+      const offlineTransactions = deepcopy(state.offlineTransactions);
+      offlineTransactions.push(transactionObject);
+      state.offlineTransactions = offlineTransactions;
     },
   },
   actions: {
@@ -50,6 +56,10 @@ export default new Vuex.Store({
             return transactionData;
           }
         )
+    },
+    createTransactionForSync(context, transaction) {
+      /* If we are currently offline, set the transaction in the store for future syncing. */
+      context.commit('addTransactionToOfflineTransactions', transaction);
     },
     updateTransaction(context, transaction) {
       /* Make a PUT request to update the transaction, then set it in the store. */
