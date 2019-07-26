@@ -6,8 +6,13 @@ import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
-new Vue({
+const vue = new Vue({
   router,
   store,
   render: h => h(App),
 }).$mount('#app');
+
+// GET transactions before starting Vue.
+vue.$store.dispatch('getTransactions').then(() => {
+  vue.$mount('#app')
+})

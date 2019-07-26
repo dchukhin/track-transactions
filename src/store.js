@@ -13,6 +13,9 @@ export default new Vuex.Store({
     transactionDetail(state, transactionObject) {
       state.transactionDetail = transactionObject;
     },
+    transactions(state, transactions) {
+      state.transactions = transactions;
+    },
     addTransactionToTransactions(state, transactionObject) {
       const transactions = deepcopy(state.transactions);
       transactions.push(transactionObject);
@@ -25,6 +28,14 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    getTransactions(context) {
+      /* GET Transactions from API endpoint, set them in the store, and return them. */
+      return fetch('https://my-json-server.typicode.com/dchukhin/track-transactions/transactions')
+        .then(response => response.json())
+        .then(transactions => {
+          context.commit('transactions', transactions);
+        })
+    },
     createTransaction(context, transaction) {
       // TODO: API call to create a transaction. For now, just save to store
       context.commit('addTransactionToTransactions', transaction);
